@@ -4,10 +4,10 @@ block main
     .layui-row
         .layui-btn-container
             #upload.layui-btn 选择头像
+            #send.layui-btn 开始上传
 
         img.preview
-        .layui-btn-container
-            #send.layui-btn 开始上传
+
 
 
 
@@ -24,6 +24,7 @@ block scripts
                 acceptMime: 'image/',
                 auto: false,
                 bindAction: '#send',
+                size: 1024,
                 choose: function (obj) {
 
                     obj.preview(function (index, file, result) {

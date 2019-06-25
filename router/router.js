@@ -15,7 +15,7 @@ const uploadConfig = {
         // 保持文件后缀名1不变
         keepExtensions: true,
         // 最大上传字节
-        maxFieldsSize: 2 * 1024 * 1024,
+        maxFieldsSize: 1024 * 1024,
         // 上传前的回调，取文件后缀名 如.js .txt
         onFileBegin(name,file){
 

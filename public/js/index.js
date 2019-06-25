@@ -4,7 +4,8 @@ layui.use(['element','laypage'], function () {
 
     // 导航栏点击切换颜色
     if (location.pathname.indexOf('classify') !== -1) {
-        var select = location.pathname.replace('/classify/','')
+        var select = location.pathname.replace(/^(\/classify\/)|(\/\d*)$/g,'')
+        // console.log(select)
         $('.'+select).css('color','#f60')
     }
 
@@ -18,7 +19,6 @@ layui.use(['element','laypage'], function () {
         limit: 5,
         curr: location.pathname.replace(path, ''),
         jump: function (obj) {
-
             var $a = $('#laypage a')
 
             $a.each(function () {
