@@ -1,0 +1,78 @@
+#main{
+    min-height: calc(100vh - 291px);
+}
+
+/* 主题部分 文章列表 */
+.content{
+    background-color: #fff;
+}
+.article-item{
+    position: relative;
+    padding: 15px 15px 15px 75px;
+    border-bottom: 1px solid #D2D2D2;
+}
+
+.article-item .list-face{
+    display: block;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: 45px;
+    background-color: #f00;
+
+}
+.article-item > a{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.article-item .title{
+    overflow: hidden;
+    margin-bottom: 5px;
+    font-size: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.article-item .title span{
+    margin-right: 10px;
+}
+
+.article-item .hint span{
+    margin-right: 20px;
+    color: #988;
+    font-size: 14px;
+}
+.article-item .hint span.comment{
+    float: right;
+}
+.article-item .hint .layui-icon-file-b{
+    padding-right: 6px;
+}
+
+#laypage{
+    text-align: center;
+}
+
+/* 右侧小提示 */
+.tips{
+
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #fff;
+}
+.tips h2{
+    color: #333;
+    margin-bottom: 10px;
+}
+.tips li{
+    height: 30px;
+    line-height: 30px;
+}
+.tips li.first{
+    color: orangered;
+}
+.tips li span{
+    color: darkgreen;
+}

@@ -1,0 +1,94 @@
+
+.art-container{
+    padding: 20px 40px 0;
+    background-color: #fff;
+}
+
+.art-head{
+    padding: 10px 30px;
+    border-bottom: 2px solid skyblue;
+}
+
+.art-head .title{
+    text-align: center;
+    line-height: 32px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+.art-head .tips{
+    padding-top: 10px;
+    color: green;
+    font-size: 14px;
+    text-align: center;
+}
+
+.art-content{
+    padding: 15px 15px;
+    font-size: 16px;
+}
+.art-content .art-wrap{
+    padding: 15px;
+    background-color: #ddd;
+    border-radius: 10px;
+}
+
+.art-content p{
+    height: 20px;
+    line-height: 20px;
+}
+
+
+
+.comment{
+    margin-top: 30px;
+    padding: 20px 30px;
+    background-color: #fff;
+}
+.comment fieldset{
+    border: 0;
+    border-top: 1px solid #aaa;
+}
+.comment fieldset legend{
+    margin-left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+}
+.comment .btn{
+    height: 50px;
+    margin: 20px 0;
+}
+
+.comment-list{
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+}
+.comment-list .bar{
+    position: relative;
+    padding-top: 10px;
+    padding-left: 60px;
+}
+.comment-list img{
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 50px;
+    height: 50px;
+}
+.comment-list p.author{
+    padding: 3px;
+    color: #53c9f7;
+    font-size: 18px;
+}
+.comment-list p.time{
+    padding: 3px;
+    color: #999;
+    font-size: 14px;
+}
+.comment-list .commentText{
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    line-height: 20px;
+    word-break: break-all;
+    white-space: pre-wrap;
+}

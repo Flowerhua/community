@@ -1,0 +1,54 @@
+#nav
+    .layui-bg-black
+        nav.layui-container.nav-warp
+            ul.layui-nav
+                li.layui-nav-item.layui-this
+                    a(href="/") Web
+                li.layui-nav-item
+                    a(href="javascript:;") Java
+                li.layui-nav-item
+                    a(href="javascript:;") Python
+                li.layui-nav-item
+                    a(href="javascript:;") 大数据
+                li.layui-nav-item
+                    a(href="javascript:;") 云计算
+            .login
+                if session && !session.isNew
+                    ul.layui-nav
+
+
+                        li.layui-nav-item
+                            a(href="javascript:;")
+                                img.layui-nav-img(src=session.avatar)
+                                = session.username
+                            dl.layui-nav-child
+                                dd
+                                    a(href="/addArticle") 发表文章
+                                dd
+                                    a(href="/admin/article")
+                                        | 个人中心
+                                        span.layui-badge-dot
+                                dd
+                                    a(href="/user/logout") 退出登陆
+
+                else
+                    ul.layui-nav
+                        li.layui-nav-item
+                            a(href="/user/login") 登陆
+                        li.layui-nav-item
+                            a(href="/user/reg") 注册
+    .sub-nav
+        nav.layui-container
+            ul.sub-nav-list
+                li
+                    a(href="/classify/html").html html
+                li
+                    a(href="/classify/javascript").javascript javascript
+                li
+                    a(href="/classify/angular").angular angular
+                li
+                    a(href="/classify/vue").vue vue
+                li
+                    a(href="/classify/react").react react
+
+

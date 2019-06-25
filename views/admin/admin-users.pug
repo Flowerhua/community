@@ -1,0 +1,83 @@
+extends ./admin
+
+block main
+    table(lay-filter="user")#usersTable
+
+
+block scripts
+    script.
+        layui.use('table', function () {
+
+            var table = layui.table,
+                layer = layui.layer,
+                $ = layui.$
+
+            table.render({
+                elem: "#usersTable",
+                url: '/backstage/user',
+                cols: [[
+                    {
+                        field: 'username',
+                        title: '用户名'
+                    },
+                    {
+                        field: 'role',
+                        title: '用户权限'
+                    },
+                    {
+                        field: 'articleNum',
+                        title: '文章数'
+                    },
+                    {
+                        field: 'commentNum',
+                        title: '评论数'
+                    },
+                    {
+                        field: 'created',
+                        title: '注册时间'
+                    },
+                    {
+                        title: '操作',
+                        toolbar: '<div><button lay-event="del" class="layui-btn layui-btn-xs layui-btn-danger">删除</button></div>'
+                    }
+
+                ]]
+            })
+
+            table.on('tool(user)', function (obj) {
+                if (obj.event !== 'del') return
+                
+                var data = obj.data
+                
+                layer.confirm('您确定要删除吗', function (index) {
+                    layer.close(index)
+                    
+                    $.ajax({
+                        method: 'delete',
+                        url: '/user/'+ data.id,
+                        success: function (res) {
+                            if (res.status) {
+                                layer.open({
+                                    icon: 1,
+                                    title: false,
+                                    content: '删除成功',
+                                    end: function () {
+                                        table.reload("usersTable")
+                                    }
+                                })
+                            } else {
+                                layer.msg('删除失败')
+                            }
+                        },
+                        error: function () {
+                            layer.msg('删除失败')
+                        }
+                    })
+                    
+                })
+                
+            })
+
+
+
+        })

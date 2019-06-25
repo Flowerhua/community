@@ -1,0 +1,52 @@
+extends ./common/layout
+
+block css
+    link(rel="stylesheet", href="/css/common.css")
+    link(rel="stylesheet", href="/css/articleDetail.css")
+
+
+block nav
+    include ./common/nav
+
+block content
+
+    .layui-container.art-container
+        section.art-head.layui-text
+            h1.title(data-art-id=article._id)= article.title
+            .layui-row.tips
+                .layui-col-md4
+                    span.author= "作者：" + article.author.username
+                .layui-col-md4
+                    span.classify= "分类：" + article.classify
+                .layui-col-md4
+                    span.time= "发表于：" + article.created.toLocaleString()
+
+        section.art-content
+            article.art-wrap!= article.content
+
+
+    .layui-container.comment
+        fieldset
+            legend 评论
+        textaret#layedit
+        button.layui-btn.btn.layui-btn-fluid(lay-submit) 提交
+
+        .comment-list
+            ul
+                each item in comment
+                    li
+                        .bar
+                            img(src=item.avatar)
+                            div
+                                p.author= item.username
+                                p.time= item.created.toLocaleString()
+                        .commentText!= item.content
+
+
+block footer
+    include ./common/footer
+        
+        
+        
+block scripts
+    script(src="/js/articleDetail.js")

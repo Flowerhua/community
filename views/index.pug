@@ -1,0 +1,46 @@
+extends common/layout
+
+block css
+    link(rel="stylesheet", href='/css/common.css')
+    link(rel="stylesheet", href="/css/index.css")
+
+block nav
+    include ./common/nav
+block footer
+    include ./common/footer
+
+
+block content
+
+    main#main.layui-container
+        section.layui-row
+            article.layui-col-md8.content
+                ul.article-list
+                    if artList.length > 0
+
+                        each item in artList
+
+                            li.article-item
+                                a(href=`/article/${item._id}`)
+                                    img.list-face(src=item.author.avatar)
+                                    h2.title
+                                        span.layui-badge= item.classify
+                                        span(title=item.title)= item.title
+                                    div.hint
+                                        span= item.author.username
+                                        span= item.created.toLocaleString()
+                                        span.comment
+                                            i(title="评论").layui-icon.layui-icon-file-b
+                                            = item.commentNum
+                    else
+                        li.layui-text(style="padding:10px 0;text-align:center") 暂无文章
+
+
+                #laypage(data-maxnum=maxNum, data-path=path)
+
+            aside.layui-col-md-offset1.layui-col-md3
+                include ./common/tips
+
+
+block scripts
+    script(src="/js/index.js")

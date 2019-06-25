@@ -1,0 +1,74 @@
+extends ./admin
+
+
+block main
+    table(lay-filter="article")#articlesTable
+
+
+block scripts
+    script.
+        layui.use('table', function () {
+
+            var table = layui.table,
+                layer = layui.layer,
+                $ = layui.$
+
+            table.render({
+                elem: '#articlesTable',
+                url: '/backstage/article',
+                done: function(res, curr, count){
+
+                },
+                cols: [[
+                    {
+                        field: 'title',
+                        title: '文章标题'
+                    },
+                    {
+                        field: 'classify',
+                        title: '分类'
+                    },
+                    {
+                        field: 'commentNum',
+                        title: '评论数'
+                    },
+                    {
+                        title: '操作',
+                        toolbar: '<div><button lay-event="del" class="layui-btn layui-btn-xs layui-btn-danger">删除</button></div>'
+                    }
+                ]]
+            })
+
+            table.on('tool(article)', function (obj) {
+                if (obj.event !== 'del') return
+                var data = obj.data
+
+                layer.confirm('您确定要删除吗', function (index) {
+                    layer.close(index)
+                    
+                    $.ajax({
+                        method: 'delete',
+                        url: '/article/' + data.id,
+                        success: function (res) {
+                            if (res.status) {
+                                layer.open({
+                                    icon: 1,
+                                    title: false,
+                                    content: '删除成功',
+                                    end: function () {
+                                        table.reload("articlesTable")
+                                    }
+                                })
+                            } else {
+                                layer.msg('删除失败')
+                            }
+                        },
+                        error: function () {
+                            console.log('error')
+                        }
+                    })
+                    
+                })
+
+            })
+        })

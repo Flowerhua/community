@@ -1,0 +1,86 @@
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        meta(name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        title= title
+        link(rel="stylesheet",href="/layui/css/layui.css")
+        style.
+            .layui-nav-side{
+                margin-top: 60px;
+
+            }
+            .layui-nav-item a{
+                font-size: 20px;
+            }
+            #main{
+                margin-left: 200px;
+                padding: 10px;
+            }
+            .nav-wrap{
+                position: relative;
+            }
+            .user-info{
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 60px;
+                color: #ccc;
+                font-size: 20px;
+                line-height: 60px;
+                vertical-align: middle;
+            }
+            .user-info .layui-nav-img{
+                margin-left: 10px;
+            }
+        block css
+
+
+    body
+
+        header.layui-bg-black
+            .layui-container.nav-wrap
+                nav.layui-nav
+                    .layui-nav-item
+                        a(href='/') 首页
+                    .layui-nav-item
+                        a(href='/user/logout') 退出
+                .user-info
+                    span 欢迎：
+                    img.layui-nav-img(src=session.avatar)
+                    = session.username
+
+        aside.layui-nav.layui-nav-tree.layui-nav-side
+
+            .layui-nav-item
+                a(href='/admin/article') 文章管理
+            .layui-nav-item
+                a(href='/admin/comment') 评论管理
+            .layui-nav-item
+                a(href='/admin/avatar') 上传头像
+            if session.role > 1
+                .layui-nav-item
+                    a(href='/admin/users') 用户管理
+        main#main
+
+            block main
+
+        script(src='/layui/layui.js')
+        script.
+            layui.use('element', function () {
+                var $ = layui.$
+
+                $('.layui-nav-side a').each(function (i) {
+                    var link = $(this).attr('href')
+
+                    if (link === window.location.pathname) {
+                        $('.layui-nav-side .layui-nav-item').eq(i).addClass('layui-this')
+                    }
+
+
+                })
+
+            })
+
+        block scripts

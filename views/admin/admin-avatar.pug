@@ -1,0 +1,58 @@
+extends ./admin
+
+block main
+    .layui-row
+        .layui-btn-container
+            #upload.layui-btn 选择头像
+
+        img.preview
+        .layui-btn-container
+            #send.layui-btn 开始上传
+
+
+
+block scripts
+    script.
+        layui.use(['upload', 'layer'], function () {
+            var upload = layui.upload,
+                layer = layui.layer,
+                $ = layui.$
+
+            upload.render({
+                elem: '#upload',
+                url: '/upload/avatar',
+                acceptMime: 'image/',
+                auto: false,
+                bindAction: '#send',
+                choose: function (obj) {
+
+                    obj.preview(function (index, file, result) {
+
+                        $('.preview').prop('src', result)
+
+                    })
+                },
+                before: function(){
+
+                },
+                done: function (res) {
+                    if (res.status) {
+                        layer.open({
+                            icon: 1,
+                            title: false,
+                            content: res.msg,
+                            end: function () {
+                                window.location.reload()
+                            }
+                        })
+                    } else {
+                        layer.open({
+                            icon: 2,
+                            title: false,
+                            content: res.msg
+                        })
+                    }
+                }
+
+            })
+        })

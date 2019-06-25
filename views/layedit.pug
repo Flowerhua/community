@@ -1,0 +1,38 @@
+extends ./common/layout
+
+block content
+
+    .layui-container
+        .layui-tab.layui-tab-brief
+            ul.layui-tab-title
+                li.layui-this 文章编辑
+
+            .layui-tab-content
+                .layui-tab-item.layui-show.layui-form
+
+                    .layui-form-item
+                        .layui-form-label 文章分类
+                        .layui-input-inline
+                            select(lay-verify="required" name="classify")
+                                option(value="")
+                                option(value="html") html
+                                option(value="javascript") javascript
+                                option(value="angular") angular
+                                option(value="vue") vue
+                                option(value="react") react
+                    .layui-form-item
+                        .layui-form-label 文章标题
+                        .layui-input-block
+                            input.layui-input(name="title", autocomplete="off", lay-verify="required")
+
+                    .layui-form-item
+                        textarea#edit(style="display:none;")
+
+                    .layui-form-item
+                        button(lay-submit, lay-filter="send").layui-btn 立即发表
+
+
+
+    
+block scripts
+    script(src="/js/edit.js")
