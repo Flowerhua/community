@@ -11,7 +11,7 @@ exports.index = async (ctx) => {
     // 总文档数
     const maxNum = await Article.estimatedDocumentCount((err, num) => err ? console.log(err) : num)
 
-    if (page < 1 || page > Math.ceil(maxNum / limit)) {
+    if (page < 1 || page > Math.ceil(maxNum / limit) && maxNum !== 0) {
         return await ctx.render('404', { title: '404' })
     }
 

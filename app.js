@@ -5,6 +5,7 @@ const koaViews = require('koa-views')
 const { join } = require('path')
 const router = require('./router/router')
 const koaSession = require('koa-session')
+const koaCompress = require('koa-compress')
 
 const app = new Koa
 
@@ -24,6 +25,12 @@ const CONFIG = {
 
 // session 中间件
 app.use(koaSession(CONFIG,app))
+
+// 资源压缩
+app.use(koaCompress({
+    threshold: 2048,
+    flush: require('zlib').Z_SYNC_FLUSH
+}))
 
 // post 请求中间件
 app.use(koaBody())
