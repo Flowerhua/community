@@ -10,4 +10,8 @@
 `npm run db`
 
 ## 第三步，运行项目
+<<<<<<< HEAD
 `npm start`
+=======
+`npm start`
+>>>>>>> a001fbc47529d7f671ebca853577d91a4fb32d29
