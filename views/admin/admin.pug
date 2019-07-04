@@ -6,6 +6,7 @@ html
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         title= title
         link(rel="stylesheet",href="/layui/css/layui.css")
+        link(rel="stylesheet",href="/css/common.css")
         style.
             .layui-nav-side{
                 padding-top: 60px;
@@ -18,38 +19,53 @@ html
                 margin-left: 200px;
                 padding: 10px;
             }
-            .nav-wrap{
-                position: relative;
-            }
-            .user-info{
-                position: absolute;
-                top: 0;
-                right: 0;
-                height: 60px;
-                color: #ccc;
-                font-size: 20px;
-                line-height: 60px;
-                vertical-align: middle;
-            }
-            .user-info .layui-nav-img{
-                margin-left: 10px;
-            }
+
         block css
 
 
     body
 
-        header.layui-bg-black
-            .layui-container.nav-wrap
-                nav.layui-nav
-                    .layui-nav-item
-                        a(href='/') 首页
-                    .layui-nav-item
-                        a(href='/user/logout') 退出
-                .user-info
-                    span 欢迎：
-                    img.layui-nav-img(src=session.avatar)
-                    = session.username
+
+        header
+            .layui-bg-black
+                nav.layui-container.nav-warp
+                    ul.layui-nav
+
+                        li.layui-nav-item(class=pathName === '/' ? 'layui-this' : '')
+                            a(href="/") 首页
+                        li.layui-nav-item(class=pathName === '/client' ? 'layui-this' : '')
+                            a(href="/client") 前端
+                        li.layui-nav-item(class=pathName === '/server' ? 'layui-this' : '')
+                            a(href="/server") 后端
+                        li.layui-nav-item(class=pathName === '/dashuju' ? 'layui-this' : '')
+                            a(href="/dashuju") 大数据
+                        li.layui-nav-item(class=pathName === '/yunjisuan' ? 'layui-this' : '')
+                            a(href="/yunjisuan") 云计算
+                    .login
+                        if session && !session.isNew
+                            ul.layui-nav
+
+
+                                li.layui-nav-item
+                                    a(href="javascript:;")
+                                        img.layui-nav-img(src=session.avatar)
+                                        = session.username
+                                    dl.layui-nav-child
+                                        dd
+                                            a(href="/addArticle") 发表文章
+                                        dd
+                                            a(href="/admin/article")
+                                                | 个人中心
+                                                span.layui-badge-dot
+                                        dd
+                                            a(href="/user/logout") 退出登陆
+
+                        else
+                            ul.layui-nav
+                                li.layui-nav-item
+                                    a(href="/user/login") 登陆
+                                li.layui-nav-item
+                                    a(href="/user/reg") 注册
 
         aside.layui-nav.layui-nav-tree.layui-nav-side
 

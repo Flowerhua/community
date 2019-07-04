@@ -11,12 +11,14 @@ exports.index = async (ctx) => {
     // 总文档数
     const maxNum = await Article.estimatedDocumentCount((err, num) => err ? console.log(err) : num)
 
+
     if (page < 1 || page > Math.ceil(maxNum / limit) && maxNum !== 0) {
         return await ctx.render('404', { title: '404' })
     }
 
     page --
-    
+
+
     const artList = await Article
         .find()
         .sort('-created')
@@ -30,27 +32,67 @@ exports.index = async (ctx) => {
         .catch(err => console.log(err))
 
 
+    
     await ctx.render('index',{
         title: "仿layui社区",
         session: ctx.session,
         artList,
         maxNum,
-        path: '/page/'
+        path: '/page/',
+        pathName: '/'
     })
+    
+    
+}
+
+exports.nav = async (ctx) => {
+    let page = ctx.params.id || 1
+    if (page <= 0) {
+        return await ctx.render('404', { title:"404" })
+    }
+
+    const limit = 5
+    const path = ctx.path.split('/')[1]
+    const regexp = new RegExp(`^${path}-`)
+    
+    const maxNum = (await Article.find({classify:regexp})).length
+
+    page --
+
+    const artList = await Article
+        .find({classify: regexp})
+        .sort('-created')
+        .skip(page * limit)
+        .limit(limit)
+        .populate('author','_id username avatar')
+        .then(data => data)
+        .catch(err => console.log(err))
+
+
+    await ctx.render('index', {
+        title: "仿layui社区",
+        session: ctx.session,
+        artList,
+        maxNum,
+        path: `/${path}/page/`,
+        pathName: '/' + path
+    })
+
+
 }
 
 // 首页分类查询
 exports.classify = async (ctx) => {
     const type = ctx.params.type
-    const typeArr = ['html', 'javascript', 'angular', 'vue', 'react']
-
+    const submenu = ctx.params.submenu
+    const typeArr = ['client', 'server', 'dashuju', 'yunjisuan']
 
     if (!typeArr.includes(type)) {
         return ctx.render('404', {title: '404'})
     }
 
     const data = await Article
-        .find({classify: type})
+        .find({classify: type+'-'+submenu})
         .sort('-created')
         .populate({
             path: 'author',
@@ -78,13 +120,13 @@ exports.classify = async (ctx) => {
     }
 
 
-
     await ctx.render('index',{
         title: "仿layui社区",
         session: ctx.session,
         artList,
         maxNum,
-        path: `/classify/${ type }/`
+        path: `/classify/${ type }/${ submenu }/`,
+        pathName: '/' + ctx.path.split('/')[2]
     })
 }
 
@@ -94,7 +136,8 @@ exports.addArticle = async (ctx) => {
     if (ctx.session.isNew) return ctx.redirect('/user/login')
 
     await ctx.render('layedit', {
-        title: '发表文章'
+        title: '发表文章',
+        session: ctx.session
     })
 }
 

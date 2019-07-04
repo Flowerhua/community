@@ -31,14 +31,32 @@ const uploadConfig = {
     }
 }
 
-router.get('/', articles.index)
-
 // 文章列表分页查询路由
+router.get('/', articles.index)
 router.get('/page/:id', articles.index)
 
+// 前端
+router.get('/client', articles.nav)
+router.get('/client/page/:id', articles.nav)
+
+// 后端
+router.get('/server', articles.nav)
+router.get('/server/page/:id', articles.nav)
+
+// 大数据
+router.get('/dashuju', articles.nav)
+router.get('/dashuju/page/:id', articles.nav)
+
+// 云计算
+router.get('/yunjisuan', articles.nav)
+router.get('/yunjisuan/page/:id', articles.nav)
+
+
+
+
 // 首页分类查询
-router.get('/classify/:type', articles.classify)
-router.get('/classify/:type/:page', articles.classify)
+router.get('/classify/:type/:submenu', articles.classify)
+router.get('/classify/:type/:submenu/:page', articles.classify)
 
 // 处理用户登陆或注册，渲染对应模板
 router.get(/^\/user\/(login|reg)$/, users.register)
@@ -87,6 +105,11 @@ router.del('/article/:id', admin.delArticle)
 
 // 后台删除用户
 router.del('/user/:id', admin.delUser)
+
+
+
+
+
 
 // 404页面
 router.get('*', async (ctx) => {

@@ -1,4 +1,4 @@
-layui.use(['layedit','form','layer'], function () {
+layui.use(['layedit','form','layer','element'], function () {
     var layedit = layui.layedit,
         form = layui.form,
         layer = layui.layer,
@@ -24,6 +24,8 @@ layui.use(['layedit','form','layer'], function () {
             title: data.field.title,
             content: content
         }
+
+        console.log(obj)
         
         $.post('/addArticle', obj, function (res) {
             if (res.status) {

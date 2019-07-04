@@ -1,5 +1,5 @@
 
-layui.use('form', function () {
+layui.use(['form','element'], function () {
     var form = layui.form,
         layer = layui.layer,
         $ = layui.$

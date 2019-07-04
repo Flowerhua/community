@@ -24,7 +24,7 @@ block content
                                 a(href=`/article/${item._id}`)
                                     img.list-face(src=item.author.avatar)
                                     h2.title
-                                        span.layui-badge= item.classify
+                                        span.layui-badge= item.classify.split('-')[1]
                                         span(title=item.title)= item.title
                                     div.hint
                                         span= item.author.username

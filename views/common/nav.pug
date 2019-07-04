@@ -2,16 +2,17 @@
     .layui-bg-black
         nav.layui-container.nav-warp
             ul.layui-nav
-                li.layui-nav-item.layui-this
-                    a(href="/") Web
-                li.layui-nav-item
-                    a(href="javascript:;") Java
-                li.layui-nav-item
-                    a(href="javascript:;") Python
-                li.layui-nav-item
-                    a(href="javascript:;") 大数据
-                li.layui-nav-item
-                    a(href="javascript:;") 云计算
+
+                li.layui-nav-item(class=pathName==='/'?'layui-this':'')
+                    a(href="/") 首页
+                li.layui-nav-item(class=pathName==='/client'?'layui-this':'')
+                    a(href="/client") 前端
+                li.layui-nav-item(class=pathName==='/server'?'layui-this':'')
+                    a(href="/server") 后端
+                li.layui-nav-item(class=pathName==='/dashuju'?'layui-this':'')
+                    a(href="/dashuju") 大数据
+                li.layui-nav-item(class=pathName==='/yunjisuan'?'layui-this':'')
+                    a(href="/yunjisuan") 云计算
             .login
                 if session && !session.isNew
                     ul.layui-nav
@@ -39,16 +40,7 @@
                             a(href="/user/reg") 注册
     .sub-nav
         nav.layui-container
-            ul.sub-nav-list
-                li
-                    a(href="/classify/html").html html
-                li
-                    a(href="/classify/javascript").javascript javascript
-                li
-                    a(href="/classify/angular").angular angular
-                li
-                    a(href="/classify/vue").vue vue
-                li
-                    a(href="/classify/react").react react
+            include ./subnav
+
 
 

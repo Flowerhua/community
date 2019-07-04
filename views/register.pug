@@ -1,8 +1,50 @@
 extends common/layout
 
-
+block css
+    link(rel='stylesheet', href="/css/common.css")
 
 block content
+
+    //-include ./common/nav
+    .layui-bg-black
+        nav.layui-container.nav-warp
+            ul.layui-nav
+
+                li.layui-nav-item(class=pathName === '/' ? 'layui-this' : '')
+                    a(href="/") 首页
+                li.layui-nav-item(class=pathName === '/client' ? 'layui-this' : '')
+                    a(href="/client") 前端
+                li.layui-nav-item(class=pathName === '/server' ? 'layui-this' : '')
+                    a(href="/server") 后端
+                li.layui-nav-item(class=pathName === '/dashuju' ? 'layui-this' : '')
+                    a(href="/dashuju") 大数据
+                li.layui-nav-item(class=pathName === '/yunjisuan' ? 'layui-this' : '')
+                    a(href="/yunjisuan") 云计算
+            .login
+                if session && !session.isNew
+                    ul.layui-nav
+
+
+                        li.layui-nav-item
+                            a(href="javascript:;")
+                                img.layui-nav-img(src=session.avatar)
+                                = session.username
+                            dl.layui-nav-child
+                                dd
+                                    a(href="/addArticle") 发表文章
+                                dd
+                                    a(href="/admin/article")
+                                        | 个人中心
+                                        span.layui-badge-dot
+                                dd
+                                    a(href="/user/logout") 退出登陆
+
+                else
+                    ul.layui-nav
+                        li.layui-nav-item
+                            a(href="/user/login") 登陆
+                        li.layui-nav-item
+                            a(href="/user/reg") 注册
     .layui-container
         .layui-tab
             ul.layui-tab-title

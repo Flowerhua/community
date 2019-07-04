@@ -1,0 +1,47 @@
+case pathName
+    when '/'
+        break
+    when '/client'
+        ul.sub-nav-list
+
+            li
+                a(href="/classify/client/javascript").javascript javascript
+            li
+                a(href="/classify/client/angular").angular angular
+            li
+                a(href="/classify/client/vue").vue vue
+            li
+                a(href="/classify/client/react").react react
+            li
+                a(href="/classify/client/other").html 更多
+    when '/server'
+        ul.sub-nav-list
+            li
+                a(href="/classify/server/java").java Java
+            li
+                a(href="/classify/server/python").python Python
+            li
+                a(href="/classify/server/c").c C/C++
+            li
+                a(href="/classify/server/php").php PHP
+            li
+                a(href="/classify/server/other").other 更多
+    when '/dashuju'
+        ul.sub-nav-list
+            li
+                a(href="/classify/dashuju/python").python Python
+
+            li
+                a(href="/classify/dashuju/other").other 更多
+
+    when '/yunjisuan'
+        ul.sub-nav-list
+            li
+                a(href="/classify/yunjisuan/linux").linux Linux
+            li
+                a(href="/classify/yunjisuan/openstack").openstack OpenStack
+            li
+                a(href="/classify/yunjisuan/docker").docker Docker
+
+            li
+                a(href="/classify/yunjisuan/other").other 更多

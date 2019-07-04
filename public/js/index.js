@@ -1,18 +1,24 @@
 layui.use(['element','laypage'], function () {
     var laypage = layui.laypage,
-        $ = layui.$
+        $ = layui.$,
+        element = layui.element
+
 
     // 导航栏点击切换颜色
-    if (location.pathname.indexOf('classify') !== -1) {
-        var select = location.pathname.replace(/^(\/classify\/)|(\/\d*)$/g,'')
-        // console.log(select)
-        $('.'+select).css('color','#f60')
+    if (location.pathname.indexOf('/classify/') !== -1) {
+        var select = location.pathname.split('/')[3]
+        console.log(select)
+        $('.'+select).css('color','red')
     }
+
+
 
     var $laypage = $('#laypage'),
         maxNum = $laypage.data('maxnum'),
         path = $laypage.data('path')
+
     
+
     laypage.render({
         elem: 'laypage',
         count: maxNum,

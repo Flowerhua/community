@@ -1,7 +1,50 @@
 extends ./common/layout
 
+block css
+    link(rel='stylesheet', href="/css/common.css")
+
 block content
 
+    //include ./common/nav
+    .layui-bg-black
+        nav.layui-container.nav-warp
+            ul.layui-nav
+
+                li.layui-nav-item(class=pathName === '/' ? 'layui-this' : '')
+                    a(href="/") 首页
+                li.layui-nav-item(class=pathName === '/client' ? 'layui-this' : '')
+                    a(href="/client") 前端
+                li.layui-nav-item(class=pathName === '/server' ? 'layui-this' : '')
+                    a(href="/server") 后端
+                li.layui-nav-item(class=pathName === '/dashuju' ? 'layui-this' : '')
+                    a(href="/dashuju") 大数据
+                li.layui-nav-item(class=pathName === '/yunjisuan' ? 'layui-this' : '')
+                    a(href="/yunjisuan") 云计算
+            .login
+                if session && !session.isNew
+                    ul.layui-nav
+
+
+                        li.layui-nav-item
+                            a(href="javascript:;")
+                                img.layui-nav-img(src=session.avatar)
+                                = session.username
+                            dl.layui-nav-child
+                                dd
+                                    a(href="/addArticle") 发表文章
+                                dd
+                                    a(href="/admin/article")
+                                        | 个人中心
+                                        span.layui-badge-dot
+                                dd
+                                    a(href="/user/logout") 退出登陆
+
+                else
+                    ul.layui-nav
+                        li.layui-nav-item
+                            a(href="/user/login") 登陆
+                        li.layui-nav-item
+                            a(href="/user/reg") 注册
     .layui-container
         .layui-tab.layui-tab-brief
             ul.layui-tab-title
@@ -12,14 +55,34 @@ block content
 
                     .layui-form-item
                         .layui-form-label 文章分类
-                        .layui-input-inline
+                        .layui-input-block
                             select(lay-verify="required" name="classify")
                                 option(value="")
-                                option(value="html") html
-                                option(value="javascript") javascript
-                                option(value="angular") angular
-                                option(value="vue") vue
-                                option(value="react") react
+
+                                optgroup(label='前端')
+
+                                    option(value="client-javascript") javascript
+                                    option(value="client-angular") angular
+                                    option(value="client-vue") vue
+                                    option(value="client-react") react
+                                    option(value="client-other") 其它
+
+                                optgroup(label='后端')
+                                    option(value="server-java") Java
+                                    option(value="server-python") Python
+                                    option(value="server-c") C/C++
+                                    option(value="server-php") PHP
+                                    option(value="server-other") 其它
+
+                                optgroup(label='大数据')
+                                    option(value="dashuju-python") Python
+                                    option(value="dashuju-other") 其它
+
+                                optgroup(label='云计算')
+                                    option(value="yunjisuan-linux") Linux
+                                    option(value="yunjisuan-openstack") OpenStack
+                                    option(value="yunjisuan-docker") Docker
+                                    option(value="yunjisuan-other") 其它
                     .layui-form-item
                         .layui-form-label 文章标题
                         .layui-input-block
