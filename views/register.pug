@@ -79,22 +79,37 @@ block content
                             label.layui-form-label 用户名
                             .layui-input-inline
                                 input(type="text",name="username",autocomplete="off" lay-verify="required|username",placeholder="请输入用户名").layui-input
-                            .layui-form-mid.layui-word-aux(style="color:red;")
+
                         .layui-form-item
                             label.layui-form-label 密码
                             .layui-input-inline
-                                input(type="password",name="password",autocomplete="off" lay-verify="required|password",placeholder="请输入密码").layui-input
+                                input(type="password",name="password",autocomplete="off",lay-verify="required|password",placeholder="请输入密码").layui-input
 
                         .layui-form-item
                             label.layui-form-label 确认密码
                             .layui-input-inline
-                                input(type="password",name="confirmPwd",placeholder="再次输入密码",autocomplete="off" lay-verify="required").layui-input
+                                input(type="password",name="confirmPwd",placeholder="再次输入密码",autocomplete="off",lay-verify="required").layui-input
+
+                        .layui-form-item
+                            label.layui-form-label 邮箱
+                            .layui-input-inline
+                                input(type="email",name="email",placeholder="请输入邮箱用于验证",autocomplete="off",lay-verify="required|email").layui-input
+                            .layui-input-inline
+                                button(type="button",style="width:120px;")#getcode.layui-btn.layui-btn-normal 获取验证码
+
+
+                        .layui-form-item
+                            label.layui-form-label 验证码
+                            .layui-input-inline
+                                input(type="number",name="code",placeholder="验证码",autocomplete="off").layui-input
+                            .layui-form-mid.layui-word-aux
+
                         .layui-form-item
                             .layui-input-block
-                                button(type="reset").layui-btn 重置
+                                button(type="reset").layui-btn.layui-btn-warm 重置
                                 button(lay-submit,lay-filter="reg").layui-btn 立即注册
 
-                
+
                 
 block scripts
     script(src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js")

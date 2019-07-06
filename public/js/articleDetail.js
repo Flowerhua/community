@@ -14,11 +14,10 @@ layui.use(['element','layedit','form','layer'], function () {
         if (content.length === 0) return layer.msg('请先输入评论内容')
         
         var data = {
-            content: layedit.getContent(idx),
-            article: $('h1.title').data('artId')
+            content: layedit.getContent(idx)
         }
 
-        $.post('/comment', data, function (res) {
+        $.post('/comment/'+ $('h1.title').data('artId'), data, function (res) {
             if (res.status) {
                 layer.open({
                     title: false,

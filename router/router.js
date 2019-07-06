@@ -65,7 +65,7 @@ router.get(/^\/user\/(login|reg)$/, users.register)
 router.post('/user/reg', users.reg)
 
 // 验证码
-router.get('/user/login/code', users.code)
+router.get('/user/reg/code', users.code)
 
 // 用户登陆处理函数
 router.post('/user/login', users.login)
@@ -83,7 +83,7 @@ router.post('/addArticle', articles.add)
 router.get('/article/:id',articles.detail)
 
 // 提交评论
-router.post('/comment', articles.saveComment)
+router.post('/comment/:id', articles.saveComment)
 
 // 后台管理页面
 router.get('/admin/:id', admin.index)

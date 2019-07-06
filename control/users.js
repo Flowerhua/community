@@ -12,15 +12,82 @@ exports.register = async (ctx) => {
     })
 }
 
+const _code = {}; // 用于存放验证码
+const _codeHash = {} // 用于存放验证码请求的客户端ip
+const _regHash = {} // 用于存放注册请求的客户端ip
+
 exports.code = async (ctx) => {
-    // 生成随机数
-    const code = randomCode()
+    const ip = ctx.ip
+
+    if (_codeHash[ip]) {
+        return ctx.body = {
+            status: 0,
+            msg: '您操作的太频繁了'
+        }
+    }
+    _codeHash[ip] = true
+    setTimeout(() => {
+        delete _codeHash[ip]
+    },30000)
+
+    const email = ctx.query.email
+    // 验证query参数防止恶意请求
+    if (!/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(email)) {
+        return ctx.body = {
+            status: 0,
+            msg: '邮箱格式不正确'
+        }
+    }
+
+    // 储存验证码
+    let code = randomCode()
+    _code[ctx.ip] = code
+
+    await sendMail(email,`本次注册的验证码为\n${ code }\n有效时间为5分钟，若不是本人操作请忽视`)
+        .then(() => {
+            ctx.body = {
+                status: 1,
+                msg: '验证码已发送，有效时间5分钟'
+            }
+        })
+        .catch(() => {
+            ctx.body = {
+                status: 0,
+                msg: '验证码发送失败'
+            }
+        })
+
+    // 5分钟后删除验证码
+    setTimeout(() => {
+        delete _code[ip]
+    },1000*60*5)
 
 }
 
 // 用户注册处理函数
 exports.reg = async (ctx) => {
-    const { username, password } = ctx.request.body
+    let result = {
+        status: 0,
+        msg: '验证码错误或已过期'
+    }
+
+    const ip = ctx.ip
+    // 防止频繁请求
+    if (_regHash[ip]) { // hash[ip]有值则说明30秒内访问过
+        result.msg = '您操作的太频繁了，请稍后再试'
+        return result
+    }
+    _regHash[ip] = true
+    setTimeout(() => {
+        delete _regHash[ip]
+    },30000)
+
+
+
+    const { username, password, email, code } = ctx.request.body
+
+    if (Number(code) !== _code[ip]) return ctx.body = result
+
 
     await new Promise((resolve, reject) => {
         UserModel.find({username}, (err, data) => {
@@ -29,6 +96,7 @@ exports.reg = async (ctx) => {
 
             new UserModel({
                 username,
+                email,
                 password: encrypt(password)
             })
                 .save()
@@ -54,8 +122,7 @@ exports.reg = async (ctx) => {
                 }
             }
         })
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
             ctx.body = {
                 status: 0,
                 msg: '服务器异常，请重试'
@@ -86,14 +153,14 @@ exports.login = async (ctx) => {
                     domain: 'localhost',
                     path: '/',
                     maxAge: 36e5,
-                    httpOnly: false,
+                    httpOnly: true,
                     signed: true
                 })
                 ctx.cookies.set('uid', encodeURI(data[0]._id), {
                     domain: 'localhost',
                     path: '/',
                     maxAge: 36e5,
-                    httpOnly: false,
+                    httpOnly: true,
                     signed: true
                 })
 
@@ -135,20 +202,7 @@ exports.login = async (ctx) => {
 
 }
 
-// 保持用户登陆
-exports.keepLog = async (ctx, next) => {
-    if (ctx.session.isNew) {
-        console.log('keeplog -> session')
-        if (ctx.cookies.get('username')) {
-            console.log('keeplog -> cookie')
-            ctx.session = {
-                username: decodeURI(ctx.cookies.get('username')),
-                uid: decodeURI(ctx.cookies.get('uid'))
-            }
-        }
-    }
-    await next()
-}
+
 
 // 用户退出
 exports.logout = async (ctx) => {

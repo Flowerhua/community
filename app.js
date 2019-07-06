@@ -10,7 +10,7 @@ const koaCompress = require('koa-compress')
 const app = new Koa
 
 // session 的秘钥
-app.keys = ['这是秘钥 2333']
+app.keys = ['这是秘钥 233']
 
 // session 的配置对象
 const CONFIG = {

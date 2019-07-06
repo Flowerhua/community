@@ -144,9 +144,15 @@ exports.addArticle = async (ctx) => {
 
 // 文章发表处理函数
 exports.add = async (ctx) => {
+    if (ctx.session.isNew) return ctx.redirect('/user/login')
 
-
-    const data = ctx.request.body
+    // 验证请求参数防止恶意请求
+    const data = ctx.request.body;
+    ['classify','title','content'].forEach(key => {
+        if (!data.hasOwnProperty(key)) {
+            return ctx.body = {status: 0,mgs: '发表失败'}
+        }
+    })
     
     await new Article({
         ...data,
@@ -225,13 +231,22 @@ exports.saveComment = async (ctx) => {
         status: 0,
         msg: '只有登录后才能评论'
     }
-    
     if (ctx.session.isNew) {
         return ctx.body = message
     }
     
+    const id = ctx.params.id
+    // 验证路由params部分，防止恶意请求
+    const res = await Article.findById(id)
+    console.log(res)
+    if (!res) {
+        return ctx.status = 403
+    }
+    
     const data = ctx.request.body
     data.from = ctx.session.uid
+    data.article = id
+        
     
     await new Comment(data)
         .save()
