@@ -45,6 +45,7 @@ exports.index = async (ctx) => {
     
 }
 
+// 分类导航
 exports.nav = async (ctx) => {
     let page = ctx.params.id || 1
     if (page <= 0) {
@@ -143,6 +144,7 @@ exports.addArticle = async (ctx) => {
 
 // 文章发表处理函数
 exports.add = async (ctx) => {
+
 
     const data = ctx.request.body
     

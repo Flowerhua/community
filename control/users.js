@@ -1,5 +1,7 @@
 const UserModel = require('../schema/userModel')
 const encrypt = require('../util/encrypt')
+const sendMail = require('../util/sendMail')
+const randomCode = require('../util/randomCode')
 
 
 // 渲染登陆或注册页面
@@ -8,6 +10,12 @@ exports.register = async (ctx) => {
     await ctx.render('register',{
         isLogin
     })
+}
+
+exports.code = async (ctx) => {
+    // 生成随机数
+    const code = randomCode()
+
 }
 
 // 用户注册处理函数

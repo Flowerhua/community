@@ -64,6 +64,9 @@ router.get(/^\/user\/(login|reg)$/, users.register)
 // 用户注册处理函数
 router.post('/user/reg', users.reg)
 
+// 验证码
+router.get('/user/login/code', users.code)
+
 // 用户登陆处理函数
 router.post('/user/login', users.login)
 
