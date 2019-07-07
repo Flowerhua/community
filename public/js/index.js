@@ -1,8 +1,6 @@
 layui.use(['element','laypage'], function () {
     var laypage = layui.laypage,
-        $ = layui.$,
-        element = layui.element
-
+        $ = layui.$
 
     // 导航栏点击切换颜色
     if (location.pathname.indexOf('/classify/') !== -1) {
@@ -37,9 +35,12 @@ layui.use(['element','laypage'], function () {
             if (obj.curr === 1) {
                 $a.eq(0).prop('href', 'javascript:;')
             }
-            if (obj.curr === $a.length - 1) {
+            console.log(obj.curr)
+            console.log($a.length)
+            if (obj.curr === (Math.ceil(maxNum / 5))) {
                 $a.eq($a.length - 1).prop('href', 'javascript:;')
             }
+
         }
     })
 

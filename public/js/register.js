@@ -10,10 +10,11 @@ layui.use(['form','element'], function () {
 
         if (!flag) return
 
-        flag = false
+
 
         var email = $('input[name=email]').val()
         if (/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/.test(email)) {
+            flag = false
             var that = this
             $(that).text('').addClass('layui-icon layui-icon-loading')
 

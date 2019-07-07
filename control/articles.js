@@ -32,6 +32,8 @@ exports.index = async (ctx) => {
         .catch(err => console.log(err))
 
 
+
+
     
     await ctx.render('index',{
         title: "仿layui社区",
@@ -145,18 +147,29 @@ exports.addArticle = async (ctx) => {
 // 文章发表处理函数
 exports.add = async (ctx) => {
     if (ctx.session.isNew) return ctx.redirect('/user/login')
+    let result = {
+        status: 0,
+        msg: '发表失败，请重试'
+    }
 
+    const { classify, title, content } = ctx.request.body;
     // 验证请求参数防止恶意请求
-    const data = ctx.request.body;
-    ['classify','title','content'].forEach(key => {
-        if (!data.hasOwnProperty(key)) {
-            return ctx.body = {status: 0,mgs: '发表失败'}
-        }
-    })
-    
+    if (!/^(client|server|dashuju|yunjisuan)-([a-z]+)$/.test(classify)) {
+        return ctx.body = result
+    }
+    if (!title || !content) {
+        return ctx.body = result
+    }
+    const uid = ctx.session.uid
+    if (!uid) {
+        return ctx.body = result
+    }
+
     await new Article({
-        ...data,
-        author: ctx.session.uid
+        classify,
+        title,
+        content,
+        author: uid
     })
         .save()
         .then(data => {
@@ -177,11 +190,13 @@ exports.add = async (ctx) => {
 
         })
         .catch(() => {
-            ctx.body = {
-                status: 0,
-                msg: '发表失败，请重试'
-            }
+
+            ctx.body = result
         })
+
+
+
+
 
 }
 
@@ -207,6 +222,7 @@ exports.detail = async (ctx) => {
     let [article, comments] = resultArr
 
     const comment = comments.map(item => {
+
         let o = {
             content: item.content,
             avatar: item.from.avatar,
@@ -217,8 +233,8 @@ exports.detail = async (ctx) => {
     })
 
     await ctx.render('articleDetail', {
-        session: ctx.session,
         title: article.title,
+        session: ctx.session,
         article,
         comment
     })
@@ -238,14 +254,21 @@ exports.saveComment = async (ctx) => {
     const id = ctx.params.id
     // 验证路由params部分，防止恶意请求
     const res = await Article.findById(id)
-    console.log(res)
     if (!res) {
         return ctx.status = 403
     }
     
-    const data = ctx.request.body
-    data.from = ctx.session.uid
-    data.article = id
+    const { content } = ctx.request.body
+
+    if (!content) {
+        message.msg = '评论内容不能为空'
+        return ctx.body = message
+    }
+    const data = {
+        content,
+        from: ctx.session.uid,
+        article: id
+    }
         
     
     await new Comment(data)

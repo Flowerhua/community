@@ -8,7 +8,8 @@ const randomCode = require('../util/randomCode')
 exports.register = async (ctx) => {
     const isLogin = /login/.test(ctx.path) // 判断是登陆还是注册行为
     await ctx.render('register',{
-        isLogin
+        title: isLogin ? '登陆' : '注册',
+        isLogin,
     })
 }
 
@@ -41,7 +42,7 @@ exports.code = async (ctx) => {
 
     // 储存验证码
     let code = randomCode()
-    _code[ctx.ip] = code
+    _code[ctx.ip] = [code,email]
 
     await sendMail(email,`本次注册的验证码为\n${ code }\n有效时间为5分钟，若不是本人操作请忽视`)
         .then(() => {
@@ -86,8 +87,8 @@ exports.reg = async (ctx) => {
 
     const { username, password, email, code } = ctx.request.body
 
-    if (Number(code) !== _code[ip]) return ctx.body = result
-
+    if (Number(code) !== _code[ip][0]) return ctx.body = result
+    if (email !== _code[ip][1]) return ctx.body = {status:0, msg:'邮箱不正确'}
 
     await new Promise((resolve, reject) => {
         UserModel.find({username}, (err, data) => {
